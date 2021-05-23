@@ -1,0 +1,12 @@
+main: GetMap
+name: GetMap
+version: 1.0
+author: ychenfo
+description: Get the map in a specific region
+commands:
+   startRecMap:
+      description: Get the map in a specific region, start record the region
+      usage: /startRecMap
+   endRecMap:
+      description: Get the map in a specific region, stop record the region
+      usage: /endRecMap
