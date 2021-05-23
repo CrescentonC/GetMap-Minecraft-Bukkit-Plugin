@@ -14,7 +14,6 @@ public class EndRecCommand implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] split) {
-		this.plugin.endRecording(sender.getName());
-		return true;
+		return this.plugin.endRecording();
 	}
 }

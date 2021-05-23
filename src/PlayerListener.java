@@ -4,6 +4,8 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.block.Block;
 
 public class PlayerListener implements Listener {
@@ -15,13 +17,27 @@ public class PlayerListener implements Listener {
     }
 
     @EventHandler
-    public void onPlayerMove(PlayerMoveEvent event) {
+    public synchronized void onPlayerMove(PlayerMoveEvent event) {
         if (this.plugin.isRecording()) {
-//            Location from = event.getFrom();
+            Block from = event.getFrom().getBlock();
             Block to = event.getTo().getBlock();
 
             this.plugin.addBlocksAround(to);
-//            plugin.getLogger().info(String.format("From %.2f,%.2f,%.2f to %.2f,%.2f,%.2f", from.getX(), from.getY(), from.getZ(), to.getX(), to.getY(), to.getZ()));
+            plugin.getLogger().info(String.format("From %d,%d,%d to %d,%d,%d", from.getX(), from.getY(), from.getZ(), to.getX(), to.getY(), to.getZ()));
         }
+    }
+    
+    @EventHandler
+    public void onBlockBreak(BlockBreakEvent event) {
+    	if (this.plugin.isRecording()) {
+    		this.plugin.addBlockModify(event.getBlock(), "Break");
+    	}
+    }
+    
+    @EventHandler
+    public void onBlockPlace(BlockPlaceEvent event) {
+    	if (this.plugin.isRecording()) {
+    		this.plugin.addBlockModify(event.getBlock(), "Place");
+    	}
     }
 }

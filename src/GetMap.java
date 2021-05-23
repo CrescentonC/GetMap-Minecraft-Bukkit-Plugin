@@ -12,8 +12,8 @@ public class GetMap extends JavaPlugin {
 
 	@Override
     public void onEnable() {
-		this.getCommand("startRecMap").setExecutor(new StartRecCommand(this));
-        this.getCommand("endRecMap").setExecutor(new EndRecCommand(this));
+		this.getCommand("startRec").setExecutor(new StartRecCommand(this));
+        this.getCommand("endRec").setExecutor(new EndRecCommand(this));
         
         PluginManager pm = getServer().getPluginManager();
         pm.registerEvents(listener, this);
@@ -22,39 +22,43 @@ public class GetMap extends JavaPlugin {
     @Override
     public void onDisable() {}
     
-    private MapRecorder mapRec = null;
+    private Logger logger = null;
     public boolean isRecording() {
-    	return mapRec != null ;
+    	return logger != null ;
     }
-    public boolean startRecording() {
+    public boolean startRecording(String name) {
     	if(!isRecording()) {
-    		mapRec = new MapRecorder();
+    		logger = new Logger(name);
     	}
     	return false;
     }
     
-    public boolean endRecording(String name) {
+    public boolean endRecording() {
     	if (isRecording()) {
-    		MapRecorder temp = this.mapRec;
-    		this.mapRec = null;
-    		temp.outputMap(name);
+    		Logger temp = this.logger;
+    		this.logger = null;
+    		temp.outputMap();
+    		temp.outputBlockModEvents();
     		return true;
     	}
     	return false;
     }
     
-    public static final int RADIUS = 2;
+    public static final int RADIUS = 6; // seems that player cannot reach outside 6 blocks away
     public void addBlocksAround(Block b) {
     	for (int x = RADIUS; x >= -RADIUS; x--) {
             for (int y = RADIUS; y >= -RADIUS; y--) {
                 for (int z = RADIUS; z >= -RADIUS; z--) {
                 	Block br = b.getRelative(x, y, z);
-                	if (br.getType() != Material.AIR) {                		
-                		this.mapRec.add(new Integer[] {br.getX(), br.getY(), br.getZ()}, br);
-                	}
+                	this.logger.add(new Integer[] {br.getX(), br.getY(), br.getZ()}, br);
+//                	this.getLogger().info(br.getType().toString() + "," + br.getX() + "," + br.getY() + "," + br.getZ());
                 }
             }
     	}
+    }
+    
+    public void addBlockModify(Block b, String modType) {
+    	this.logger.addBlockModEvents(modType + "," + b.getType().toString() + "," + b.getX() + "," + b.getY() + "," + b.getZ());
     }
     
 }

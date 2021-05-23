@@ -14,7 +14,6 @@ public class StartRecCommand implements CommandExecutor {
 	
 	@Override
 	public boolean onCommand(CommandSender sender, Command command, String label, String[] split) {
-		this.plugin.startRecording();
-		return true;
+		return this.plugin.startRecording(sender.getName());
 	}
 }
