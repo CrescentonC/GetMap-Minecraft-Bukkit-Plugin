@@ -1,15 +1,15 @@
-import org.bukkit.Location;
+//import org.bukkit.Location;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
+//import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerMoveEvent;
-import org.bukkit.event.player.PlayerQuitEvent;
+//import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockPlaceEvent;
 import org.bukkit.block.Block;
 
 public class PlayerListener implements Listener {
-	private final int RADIUS = 5;
+//	private final int RADIUS = 5;
     private final GetMap plugin;
 
     public PlayerListener(GetMap instance) {
@@ -19,11 +19,11 @@ public class PlayerListener implements Listener {
     @EventHandler
     public synchronized void onPlayerMove(PlayerMoveEvent event) {
         if (this.plugin.isRecording()) {
-            Block from = event.getFrom().getBlock();
+//            Block from = event.getFrom().getBlock();
             Block to = event.getTo().getBlock();
 
             this.plugin.addBlocksAround(to);
-            plugin.getLogger().info(String.format("From %d,%d,%d to %d,%d,%d", from.getX(), from.getY(), from.getZ(), to.getX(), to.getY(), to.getZ()));
+//            plugin.getLogger().info(String.format("From %d,%d,%d to %d,%d,%d", from.getX(), from.getY(), from.getZ(), to.getX(), to.getY(), to.getZ()));
         }
     }
     

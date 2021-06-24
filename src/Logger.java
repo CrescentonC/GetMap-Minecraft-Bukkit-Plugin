@@ -1,8 +1,8 @@
 import java.util.Map;
 import java.util.HashMap;
 import org.bukkit.block.Block;
-import org.bukkit.Location;
-import java.io.File;
+//import org.bukkit.Location;
+//import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Date;
@@ -36,10 +36,11 @@ public class Logger {
 		this.endTime = (this.endTime == null) ? f.format(new Date()) : this.endTime;
 	}
 	
-	public void outputMap() {
+	public String outputMap() {
 		this.updateEndTime();
 		try {
-			FileWriter fw = new FileWriter(player + "__" + this.startTime + " to " + endTime + "__Previous Map Records.txt");
+			String prevFileName = player + "__" + this.startTime + " to " + endTime + "__Previous Map Records.txt";
+			FileWriter fw = new FileWriter(prevFileName);
 			for (ArrayList<Integer> b : prev_blocks.keySet()) {
 				fw.write(this.prev_blocks.get(b) + "," + b.get(0) + "," + b.get(1) + "," + b.get(2) + "\n");
 			}
@@ -51,10 +52,13 @@ public class Logger {
 				fw.write(this.post_blocks.get(b) + "," + b.get(0) + "," + b.get(1) + "," + b.get(2) + "\n");
 			}
 			fw.close();
+			
+			return prevFileName;
 		} catch (IOException e) {
 			System.out.println("An error occurred.");
 		    e.printStackTrace();
 		}
+		return null;
 	}
 	
 	public static String blockInfo(Block b) {
@@ -67,18 +71,23 @@ public class Logger {
 		this.blockModEvents.addLast(s);
 	}
 	
-	public void outputBlockModEvents() {
+	public String outputBlockModEvents() {
 		this.updateEndTime();
 		try {
-			FileWriter fw = new FileWriter(player + "__" + this.startTime + " to " + endTime + "__Block Mod Events Records.txt");
+			String fileName = player + "__" + this.startTime + " to " + endTime + "__Block Mod Events Records.txt";
+			FileWriter fw = new FileWriter(fileName);
 			for (String s : this.blockModEvents) {
 				fw.write(s + "\n");
 			}
 			fw.close();
+			
+			return fileName;
 		} catch (IOException e) {
 			System.out.println("An error occurred.");
 		    e.printStackTrace();
 		}
+		
+		return null;
 	}
 
 }
