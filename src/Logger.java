@@ -42,6 +42,7 @@ public class Logger {
 			String prevFileName = player + "__" + this.startTime + " to " + endTime + "__Previous Map Records.txt";
 			FileWriter fw = new FileWriter(prevFileName);
 			for (ArrayList<Integer> b : prev_blocks.keySet()) {
+				if (this.prev_blocks.get(b).equals("AIR")) continue;
 				fw.write(this.prev_blocks.get(b) + "," + b.get(0) + "," + b.get(1) + "," + b.get(2) + "\n");
 			}
 //			fw.write(this.prev_blocks.size());
@@ -49,6 +50,7 @@ public class Logger {
 			
 			fw = new FileWriter(player + "__" + this.startTime + " to " + endTime + "__Post Map Records.txt");
 			for (ArrayList<Integer> b : post_blocks.keySet()) {
+				if (this.prev_blocks.get(b).equals("AIR")) continue;
 				fw.write(this.post_blocks.get(b) + "," + b.get(0) + "," + b.get(1) + "," + b.get(2) + "\n");
 			}
 			fw.close();
